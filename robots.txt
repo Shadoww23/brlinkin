@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shadoww23.github.io/brlinkin/sitemap.xml

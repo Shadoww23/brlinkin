@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proton Picker — one Proton build per Steam game, chosen at launch</title>
+<meta name="description" content="Proton Picker is a Linux Steam compatibility tool that routes each Windows game to a pinned, recommended, or newest official Proton build, with fallbacks and override cleanup.">
+<link rel="canonical" href="https://shadoww23.github.io/brlinkin/proton-picker.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Proton Picker — the right Proton build for every Steam game">
+<meta property="og:description" content="Pin Proton per game, replace fragile per-game overrides, and fall back to the newest installed official build. Local-first, no account.">
+<meta property="og:url" content="https://shadoww23.github.io/brlinkin/proton-picker.html">
+<meta property="og:image" content="https://shadoww23.github.io/brlinkin/assets/proton-picker-dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#102a29">
+<link rel="icon" type="image/png" href="assets/proton-picker-icon.png">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Proton Picker",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Linux",
+  "description": "Steam compatibility tool that routes each Windows game to a pinned, recommended, or newest installed official Proton build.",
+  "url": "https://shadoww23.github.io/brlinkin/proton-picker.html",
+  "downloadUrl": "https://brlinkin.itch.io/proton-picker",
+  "softwareVersion": "0.1.0-alpha",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "publisher": {"@type": "Organization", "name": "Brlinkin"}
+}
+</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="./"><span>B</span>RLINKIN</a>
+  <nav>
+    <a href="./#tools">Tools</a>
+    <a href="https://github.com/Shadoww23/proton-picker">GitHub</a>
+    <a href="https://brlinkin.itch.io/proton-picker">Download</a>
+  </nav>
+</header>
+
+<main>
+<a class="back" href="./">← ALL TOOLS</a>
+<section class="product-hero">
+  <div>
+    <div class="eyebrow">LINUX · STEAM · PROTON</div>
+    <h1>One Proton build per game. Chosen at launch.</h1>
+    <p class="lede">Proton Picker is a Steam compatibility tool for Linux. It reads the
+    app ID at launch, then starts your pinned build, a strongly supported
+    recommendation, or the newest installed official Proton. No per-game
+    overrides to maintain.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://brlinkin.itch.io/proton-picker">Download alpha</a>
+      <a class="btn" href="https://github.com/Shadoww23/proton-picker">Source</a>
+    </div>
+    <p class="small">Free alpha · optional donations · not affiliated with Valve</p>
+  </div>
+  <img src="assets/proton-picker-cover.png" alt="Proton Picker: right Proton, every launch" width="630" height="500">
+</section>
+
+<article class="article">
+  <h2>Why Steam Proton settings get messy</h2>
+  <p>Steam's global compatibility tool applies to every Windows game without its
+  own override. Per-game overrides work, but they live inside
+  <code>config.vdf</code>, which Steam rewrites when it exits. If you move a
+  library, reinstall a Proton build, or clean up settings, those mappings can
+  disappear — and the game silently falls back to a build you did not choose.</p>
+  <p>Proton Picker moves routing out of Steam's per-game settings. Steam sees one
+  compatibility tool. That tool decides which Proton binary to execute for the
+  app ID being launched, and keeps a ranked list of alternatives.</p>
+
+  <h2>How routing works</h2>
+  <ol>
+    <li><strong>Pin:</strong> if you pinned a build for that app ID in the dashboard, use it.</li>
+    <li><strong>Recommendation:</strong> otherwise use the strongest verified build for that game from public compatibility reports.</li>
+    <li><strong>Fallback:</strong> otherwise use the newest installed official Proton, then older official builds, then the experimental channel, then community builds.</li>
+  </ol>
+  <p>The fallback list is written as paths. Missing or unmounted builds are skipped,
+  and the launcher exits with code 126 rather than starting a build that does not
+  exist.</p>
+
+  <figure class="shot">
+    <img src="assets/proton-picker-dashboard.png" alt="Proton Picker dashboard showing Steam games, current Proton selection, and pin controls" width="1200" height="800">
+    <figcaption>The local dashboard lists installed games, not Proton runtimes, and exposes per-game pins.</figcaption>
+  </figure>
+
+  <h2>Install</h2>
+  <p>Download and extract the alpha archive, close Steam, then run:</p>
+  <pre><code>./install.sh</code></pre>
+  <p>The installer places the compatibility tool in Steam, sets it as the global
+  compatibility tool, and asks whether to remove existing per-game overrides.
+  The default is yes; the config is backed up first and removed mappings are
+  recorded so <code>uninstall.py</code> can restore them.</p>
+  <div class="callout">Close Steam before installing or uninstalling. Steam rewrites
+  <code>config.vdf</code> on exit and can undo changes made while it is running.</div>
+
+  <h2>Common problems</h2>
+  <h3>Steam ignores my per-game Proton choice</h3>
+  <p>Remove the override and let Proton Picker own routing. Pins live in
+  <code>~/.config/proton-picker/state.json</code>, not in Steam's config.</p>
+  <h3>A game fails after my games drive is unmounted</h3>
+  <p>The fallback list skips missing paths and scans standard Steam folders. If no
+  usable build exists, the launch fails explicitly instead of guessing.</p>
+  <h3>I want to A/B test a stutter or controller issue</h3>
+  <p>Pin one build, reproduce the issue, then pin another. This isolates the Proton
+  build as a variable. It does not guarantee a fix for game-specific controller
+  or frame-pacing issues.</p>
+  <p><a class="text" href="https://github.com/Shadoww23/proton-picker/blob/main/docs/PROBLEMS.md">Full troubleshooting and log paths ↗</a></p>
+
+  <h2>Requirements and limits</h2>
+  <ul>
+    <li>Linux desktop Steam. Steam Deck and Flatpak Steam are not validated in this alpha.</li>
+    <li>Python 3.10 or newer and at least one Proton build installed in Steam.</li>
+    <li>Recommendations are starting points from public reports, not guarantees.</li>
+    <li>GTA IV controller and Dead Space stutter are diagnostic paths, not claimed fixes.</li>
+    <li>Proprietary freeware license. Source is published for inspection; reuse and resale are not permitted.</li>
+  </ul>
+</article>
+
+<div class="pager">
+  <a href="./">← Brlinkin</a>
+  <a href="releaseguard.html">Next: ReleaseGuard →</a>
+</div>
+</main>
+
+<footer class="site">
+  <div><strong>Brlinkin</strong> · independent tools for Linux gaming and game releases.</div>
+  <div class="foot-links">
+    <a href="https://github.com/Shadoww23/proton-picker">GitHub</a>
+    <a href="https://brlinkin.itch.io/proton-picker">itch.io</a>
+    <a href="releaseguard.html">ReleaseGuard</a>
+  </div>
+</footer>
+</body>
+</html>

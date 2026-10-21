@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brlinkin — Proton Picker and ReleaseGuard tools</title>
+<meta name="description" content="Brlinkin builds local-first Linux gaming and game release tools: Proton Picker routes Steam games to the right Proton build; ReleaseGuard catches save corruption and release blockers.">
+<link rel="canonical" href="https://shadoww23.github.io/brlinkin/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Brlinkin — tools for Linux gaming and game releases">
+<meta property="og:description" content="Proton Picker chooses the right Proton build for every Steam game. ReleaseGuard gates game builds on save integrity, stability, timing, and packaging checks.">
+<meta property="og:url" content="https://shadoww23.github.io/brlinkin/">
+<meta property="og:image" content="https://shadoww23.github.io/brlinkin/assets/proton-picker-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#102a29">
+<link rel="icon" type="image/png" href="assets/proton-picker-icon.png">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Brlinkin",
+  "url": "https://shadoww23.github.io/brlinkin/",
+  "description": "Independent tools for Linux gaming and game release engineering.",
+  "sameAs": ["https://github.com/Shadoww23", "https://brlinkin.itch.io/"]
+}
+</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="./"><span>B</span>RLINKIN</a>
+  <nav>
+    <a href="#tools">Tools</a>
+    <a href="#problems">Problems</a>
+    <a href="#about">About</a>
+    <a href="https://github.com/Shadoww23" rel="noreferrer">GitHub</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div class="eyebrow">LOCAL-FIRST SOFTWARE · LINUX GAMING · GAME RELEASES</div>
+  <h1>Tools that fix the <em>specific</em> thing.</h1>
+  <p class="lede">Brlinkin is an independent software group building focused tools for two
+  stubborn problems: making Steam games run the Proton build you actually want, and
+  catching release blockers before players do.</p>
+  <div class="cta">
+    <a class="btn primary" href="proton-picker.html">Proton Picker for players</a>
+    <a class="btn" href="releaseguard.html">ReleaseGuard for teams</a>
+  </div>
+  <p class="small">No accounts. No telemetry. No hosted service required.</p>
+</section>
+
+<section id="tools" class="tools">
+  <article class="product pp">
+    <img src="assets/proton-picker-cover.png" alt="Proton Picker cover: right Proton, every launch" width="630" height="500">
+    <div>
+      <div class="kicker">LINUX · STEAM · PROTON</div>
+      <h2>Proton Picker</h2>
+      <p class="tagline">The right Proton build for every game, chosen at launch.</p>
+      <p>Steam normally applies one global Proton choice or forces you to edit a
+      per-game setting. Proton Picker sits at the launch point, reads the app ID,
+      and starts a pinned build, a strongly supported build, or the newest
+      installed official Proton. It keeps working when a games drive disappears.</p>
+      <ul class="checks">
+        <li>Stop hunting through Steam Play settings for every game.</li>
+        <li>Pin a build per game without creating Steam overrides.</li>
+        <li>Survive missing builds and unmounted game drives.</li>
+        <li>Remove stale per-game overrides with a backup and restore path.</li>
+      </ul>
+      <div class="links">
+        <a class="btn primary" href="proton-picker.html">How it works</a>
+        <a class="btn" href="https://brlinkin.itch.io/proton-picker">Download</a>
+        <a class="text" href="https://github.com/Shadoww23/proton-picker">Source &amp; releases ↗</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="product rg">
+    <img src="assets/releaseguard-cover.png" alt="ReleaseGuard cover: ship the build, not the bug" width="630" height="500">
+    <div>
+      <div class="kicker">GAME DEVELOPMENT · CI · SAVE SAFETY</div>
+      <h2>ReleaseGuard</h2>
+      <p class="tagline">One release-readiness gate for game builds.</p>
+      <p>ReleaseGuard combines trusted game-authored scenarios with packaged-build
+      review. Test interrupted save writes, verify recovery behavior, collect logs,
+      enforce step-duration budgets, and fail CI on size growth or development
+      leftovers — without a hosted service.</p>
+      <ul class="checks">
+        <li>Test whether an interrupted save write corrupts progress.</li>
+        <li>Gate releases on save, stability, timing, and packaging checks.</li>
+        <li>Detect oversized builds, duplicates, and shipped dev files.</li>
+        <li>Run on Windows and Linux with Python 3.10+.</li>
+      </ul>
+      <div class="links">
+        <a class="btn primary" href="releaseguard.html">How it works</a>
+        <a class="btn" href="https://brlinkin.itch.io/releaseguard">Download</a>
+        <a class="text" href="https://github.com/Shadoww23/releaseguard">Source &amp; releases ↗</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section id="problems" class="problems">
+  <div class="section-head">
+    <div class="kicker">SEARCH BY PROBLEM</div>
+    <h2>What are you trying to fix?</h2>
+    <p>These are the questions the tools answer. Each links to concrete checks, commands, and limits.</p>
+  </div>
+  <div class="grid">
+    <a class="card" href="https://github.com/Shadoww23/proton-picker/blob/main/docs/PROBLEMS.md#steam-uses-the-same-proton-version-for-every-game">
+      <span class="tag">PROTON PICKER</span>
+      <h3>Why does Steam use the same Proton version for every game?</h3>
+      <p>How the picker replaces the global choice and routes each app ID at launch.</p>
+    </a>
+    <a class="card" href="https://github.com/Shadoww23/proton-picker/blob/main/docs/PROBLEMS.md#a-per-game-proton-override-is-being-ignored-or-keeps-disappearing">
+      <span class="tag">PROTON PICKER</span>
+      <h3>Why do my Steam per-game Proton overrides disappear?</h3>
+      <p>Steam rewrites its config. Keep pins outside Steam and restore removed mappings later.</p>
+    </a>
+    <a class="card" href="https://github.com/Shadoww23/proton-picker/blob/main/docs/PROBLEMS.md#the-game-stopped-launching-after-an-external-drive-was-unmounted">
+      <span class="tag">PROTON PICKER</span>
+      <h3>Why did my game stop launching after a drive was unmounted?</h3>
+      <p>Ranked fallbacks and a last-resort scan instead of one hard-coded Proton path.</p>
+    </a>
+    <a class="card" href="https://github.com/Shadoww23/releaseguard/blob/main/docs/PROBLEMS.md#how-do-i-test-whether-an-interrupted-save-write-corrupts-a-save">
+      <span class="tag">RELEASEGUARD</span>
+      <h3>How do I test whether an interrupted save write corrupts a save?</h3>
+      <p>Run a disposable scenario that interrupts a write and checks recovery.</p>
+    </a>
+    <a class="card" href="https://github.com/Shadoww23/releaseguard/blob/main/docs/PROBLEMS.md#how-do-i-add-save-integrity-checks-to-ci">
+      <span class="tag">RELEASEGUARD</span>
+      <h3>How do I add a game save-integrity check to CI?</h3>
+      <p>Use <code>release-check</code> with your own trusted manifest and exit codes.</p>
+    </a>
+    <a class="card" href="https://github.com/Shadoww23/releaseguard/blob/main/docs/PROBLEMS.md#how-do-i-catch-oversized-game-builds-and-development-leftovers">
+      <span class="tag">RELEASEGUARD</span>
+      <h3>How do I catch oversized builds and shipped dev files?</h3>
+      <p>Inventory a packaged build, compare a baseline, and flag review candidates.</p>
+    </a>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="kicker">ABOUT BRLINKIN</div>
+  <h2>Small suite. Shared rules.</h2>
+  <p>Both tools follow the same principles: run locally, make the safe choice
+  explicit, keep a fallback, and never hide a failure behind a green checkmark.
+  They are alpha software, priced free with optional donations while they earn
+  real-world testing.</p>
+  <div class="pillars">
+    <div><h3>Local first</h3><p>No accounts or telemetry. Proton Picker only sends game app IDs to public compatibility reports; ReleaseGuard runs entirely on your machine or CI.</p></div>
+    <div><h3>Honest limits</h3><p>Recommendations are evidence-based starting points. Save checks need game-specific adapters. Neither tool claims to fix every crash, stutter, or controller issue.</p></div>
+    <div><h3>Restorable changes</h3><p>Steam config edits are backed up. Removed per-game overrides are recorded for uninstall. Build reviews never modify your game.</p></div>
+  </div>
+  <p class="disclaimer">Brlinkin is independent and not affiliated with Valve Corporation. Steam and Proton are trademarks of their respective owners.</p>
+</section>
+</main>
+
+<footer class="site">
+  <div><strong>Brlinkin</strong> · independent tools for Linux gaming and game releases.</div>
+  <div class="foot-links">
+    <a href="https://github.com/Shadoww23/proton-picker">Proton Picker</a>
+    <a href="https://github.com/Shadoww23/releaseguard">ReleaseGuard</a>
+    <a href="https://brlinkin.itch.io/">itch.io</a>
+  </div>
+</footer>
+</body>
+</html>

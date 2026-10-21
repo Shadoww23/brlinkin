@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReleaseGuard — save corruption tests and release checks for game builds</title>
+<meta name="description" content="ReleaseGuard is a local and CI release-readiness CLI for game builds: interrupted save-write tests, stability and timing scenarios, build size review, and pass/fail gates.">
+<link rel="canonical" href="https://shadoww23.github.io/brlinkin/releaseguard.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ReleaseGuard — ship the build, not the bug">
+<meta property="og:description" content="Test save recovery, gate stability and timing, and review packaged builds in one CI-friendly CLI.">
+<meta property="og:url" content="https://shadoww23.github.io/brlinkin/releaseguard.html">
+<meta property="og:image" content="https://shadoww23.github.io/brlinkin/assets/releaseguard-release-check.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#102a29">
+<link rel="icon" type="image/png" href="assets/releaseguard-icon.png">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ReleaseGuard",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, Linux",
+  "description": "Local and CI release-readiness CLI for game builds: save-corruption scenarios, stability and timing checks, and packaged-build review.",
+  "url": "https://shadoww23.github.io/brlinkin/releaseguard.html",
+  "downloadUrl": "https://brlinkin.itch.io/releaseguard",
+  "softwareVersion": "0.1.0-alpha",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "publisher": {"@type": "Organization", "name": "Brlinkin"}
+}
+</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="./"><span>B</span>RLINKIN</a>
+  <nav>
+    <a href="./#tools">Tools</a>
+    <a href="https://github.com/Shadoww23/releaseguard">GitHub</a>
+    <a href="https://brlinkin.itch.io/releaseguard">Download</a>
+  </nav>
+</header>
+
+<main>
+<a class="back" href="./">← ALL TOOLS</a>
+<section class="product-hero">
+  <div>
+    <div class="eyebrow">GAME DEVELOPMENT · CI · SAVE SAFETY</div>
+    <h1>Ship the build, not the bug.</h1>
+    <p class="lede">ReleaseGuard is a local-first release-readiness CLI. Combine
+    game-authored save, stability, and timing scenarios with packaged-build
+    review, then fail CI when a check does not hold.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://brlinkin.itch.io/releaseguard">Download alpha</a>
+      <a class="btn" href="https://github.com/Shadoww23/releaseguard">Source</a>
+    </div>
+    <p class="small">Free alpha · optional donations · Windows and Linux · Python 3.10+</p>
+  </div>
+  <img src="assets/releaseguard-cover.png" alt="ReleaseGuard: ship the build, not the bug" width="630" height="500">
+</section>
+
+<article class="article">
+  <h2>Why release checks live in five different places</h2>
+  <p>Save validation is usually manual. Stability runs are undocumented. Build
+  size is noticed after upload. Timing budgets live in someone's head. Each check
+  might exist, but none of them produces one repeatable pass/fail result that a
+  release manager or CI job can trust.</p>
+  <p>ReleaseGuard gives those checks one manifest format and one report. It does
+  not replace playtesting or a profiler; it makes the checks you already trust
+  repeatable and reviewable.</p>
+
+  <h2>What it checks</h2>
+  <h3>Save corruption and recovery</h3>
+  <p>Scenarios can start a disposable write, interrupt it at a chosen point, and
+  require either detection of a corrupt save or preservation of the previous
+  committed save. You supply a game-specific validator for real save formats.</p>
+  <h3>Stability and timing budgets</h3>
+  <p>Launch a test build, capture output, enforce exit-code expectations, interrupt
+  a process, and fail when a step exceeds its configured duration.</p>
+  <h3>Packaged-build review</h3>
+  <p>Report build size, large files, duplicate files, likely development leftovers,
+  and growth against a baseline. Findings are review hints; the build is never
+  modified.</p>
+  <h3>Snapshot and restore with a safety net</h3>
+  <p>Create hashed save snapshots, verify them, and restore with a dry run and a
+  preserved pre-restore backup.</p>
+
+  <figure class="shot">
+    <img src="assets/releaseguard-release-check.png" alt="ReleaseGuard release-check output with pass/fail checks and a summary" width="1200" height="800">
+    <figcaption>One report for save, stability, timing, and packaging checks.</figcaption>
+  </figure>
+
+  <h2>Quick start</h2>
+  <p>Extract the archive and scan a packaged build — no manifest required:</p>
+  <pre><code>python3 releaseguard.py analyze ./build --find-duplicates</code></pre>
+  <p>Run the bundled synthetic save scenarios:</p>
+  <pre><code>python3 releaseguard.py scenario examples/save-corruption-detection.json --output results
+python3 releaseguard.py scenario examples/save-recovery.json --output results</code></pre>
+  <p>Gate CI with your own trusted manifest:</p>
+  <pre><code>python3 releaseguard.py release-check ./build \
+  --scenario my-save-test.json \
+  --max-size-mib 2048 \
+  --output release-results</code></pre>
+
+  <h2>Common problems</h2>
+  <h3>Does an interrupted save write corrupt player progress?</h3>
+  <p>Run a disposable scenario that interrupts the write, then assert recovery or
+  detect corruption. The included examples are synthetic and prove the harness,
+  not a commercial game.</p>
+  <h3>How do I stop shipping a bloated build?</h3>
+  <p>Compare against a baseline and set a growth budget. Duplicate files and
+  development leftovers are reported for review.</p>
+  <h3>Can I block a release from CI?</h3>
+  <p>Yes. <code>release-check</code> exits nonzero when a configured check fails.</p>
+  <p><a class="text" href="https://github.com/Shadoww23/releaseguard/blob/main/docs/PROBLEMS.md">Full problem guide and limits ↗</a></p>
+
+  <h2>Requirements and limits</h2>
+  <ul>
+    <li>Windows or Linux, Python 3.10 or newer, no runtime dependencies.</li>
+    <li>Not a Unity, Unreal, or Godot plugin; manifests supply build and save commands.</li>
+    <li>Cannot judge whether an arbitrary proprietary save is logically valid without a game-specific validator.</li>
+    <li>Not a crash reporter, telemetry service, frame-time profiler, or save-repair tool.</li>
+    <li>Proprietary freeware license. Source is published for inspection; reuse and resale are not permitted.</li>
+  </ul>
+</article>
+
+<div class="pager">
+  <a href="proton-picker.html">← Proton Picker</a>
+  <a href="./">Brlinkin →</a>
+</div>
+</main>
+
+<footer class="site">
+  <div><strong>Brlinkin</strong> · independent tools for Linux gaming and game releases.</div>
+  <div class="foot-links">
+    <a href="https://github.com/Shadoww23/releaseguard">GitHub</a>
+    <a href="https://brlinkin.itch.io/releaseguard">itch.io</a>
+    <a href="proton-picker.html">Proton Picker</a>
+  </div>
+</footer>
+</body>
+</html>
